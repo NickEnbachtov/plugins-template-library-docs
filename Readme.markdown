@@ -2,10 +2,10 @@
 
 |                      | &nbsp; 
 | -------------------- | ---------------------------------------------------------------
-| __Type__             | [TYPE](http://docs.coronalabs.com/api/type/Library.html)
+| __Type__             | [Library](http://docs.coronalabs.com/api/type/Library.html)
 | __Corona Store__     | [SimpleAI](http://store.coronalabs.com/plugin/SimpleAI)
-| __Keywords__         | 
-| __See also__         | 
+| __Keywords__         | AI, artificial intelligence, game logic
+| __See also__         | [Documentation and code examples](http://simple-ai.blogspot.com)
 
 ## Overview
 
