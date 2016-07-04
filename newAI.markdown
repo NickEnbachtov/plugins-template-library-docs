@@ -24,7 +24,7 @@ This function takes parameters and returns an object of artificial intelligence.
 _[GroupObject](https://docs.coronalabs.com/api/type/GroupObject/index.html)._ The name of the group object in which need to be inserted the AI object.
 
 ##### img <small>(required)</small>
-_[String](http://docs.coronalabs.com/api/type/String.html)._ The name of the image file to load, relative to `baseDir` (or `system.ResourceDirectory` by default).
+_[String](http://docs.coronalabs.com/api/type/String.html)._ The name of the image file to load, relative to `baseDir` (or `system.ResourceDirectory` by default). This will be used as an image for the object of artificial intelligence.
 
 ##### x <small>(required)</small>
 _[Number](https://docs.coronalabs.com/api/type/Number.html)._ The x coordinate of the AI object.
