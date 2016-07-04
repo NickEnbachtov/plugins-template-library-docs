@@ -21,7 +21,7 @@ This function takes parameters and returns an object of artificial intelligence.
 	SimpleAI.newAI( group, img, x, y, ai_type, spriteObj )
 
 ##### group <small>(required)</small>
-_[GroupObject](https://docs.coronalabs.com/api/type/GroupObject/index.html)._ The name of the group object in which to insert the AI object.
+_[GroupObject](https://docs.coronalabs.com/api/type/GroupObject/index.html)._ The name of the group object in which need to be inserted the AI object.
 
 ##### img <small>(required)</small>
 _[String](http://docs.coronalabs.com/api/type/String.html)._ The name of the image file to load, relative to `baseDir` (or `system.ResourceDirectory` by default).
