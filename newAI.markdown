@@ -44,5 +44,5 @@ _[SpriteObject](https://docs.coronalabs.com/api/type/SpriteObject/index.html)._ 
 ``````lua
 local SimpleAI = require 'plugin.SimpleAI'
 
-local enemy = SimpleAI.newAI(mainGroup, "snailWalk1.png", display.contentWidth*0.5, display.contentHeight-300)
+local enemy = SimpleAI.newAI(mainGroup, "snailWalk.png", display.contentWidth*0.5, display.contentHeight-300)
 ``````
