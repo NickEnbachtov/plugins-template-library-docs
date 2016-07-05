@@ -56,7 +56,9 @@ If you have activated this plugin, you can download this plugin from the corresp
 
 ### Sample Code
 
-You can access sample code [here](http://simple-ai.blogspot.com).
+You can access sample code [here](SampleCode.lua).
+
+Other code examples available [here](http://simple-ai.blogspot.com).
 
 ### Support
 
