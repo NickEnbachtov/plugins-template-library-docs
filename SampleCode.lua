@@ -7,7 +7,7 @@
 ------------------------------------------------------------
 
 -- Load plugin library
-local simpleAI = require "plugin.SimpleAI"
+local SimpleAI = require "plugin.SimpleAI"
 
 -------------------------------------------------------------------------------
 -- BEGIN (Insert your sample test starting here)
@@ -51,7 +51,7 @@ player.isFixedRotation = true
 
 
 -- enemy instance
-local enemy = simpleAI.newAI(mainGroup, "snailWalk1.png", halfW-50, display.contentHeight-300, "patrol")
+local enemy = SimpleAI.newAI(mainGroup, "snailWalk1.png", halfW-50, display.contentHeight-300, "patrol")
 
 -- enemy.fireImg = "bullet.png" -- add bullet image
 -- enemy.allowShoot = true
