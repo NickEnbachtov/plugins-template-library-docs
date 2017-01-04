@@ -151,6 +151,11 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	function obj:addExtraAction()
 		
 	end
+
+	function obj:remove()
+		Runtime:removeEventListener( "enterFrame", actionAI )
+		display.remove( obj )
+	end
 	
 	---------------------
 	-- Collisions
@@ -160,10 +165,10 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		if(event.other.type == "player") then
 			if ( event.phase == "began" ) then
 				print( self.type .. ": collision began with " .. event.other.type )
-				obj:customActionOnAiCollisionWithPlayer(event)
+				obj:defaultActionOnAiCollisionWithPlayer(event)
 			elseif ( event.phase == "ended" ) then
 				print( self.type .. ": collision ended with " .. event.other.type )
-				obj:customActionOnAiCollisionWithPlayerEnd(event)
+				obj:defaultActionOnAiCollisionWithPlayerEnd(event)
 			end
 		else
 			if ( event.phase == "began" ) then
@@ -386,12 +391,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		end		
 		visionScanner.y = obj.y
 
-		if(obj.type == "enemy") then 
-			moveObjToPlayerPosition()
-			if( obj.x == lastPlayerNoticedPosition ) then
-				obj.isFixedRotation = false
-			end
-		end	
+		
 
 		if(stopFireOnInit) then
 			stopFireOnInit = false
@@ -411,12 +411,22 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 				MoveAILeft()				
 			elseif(obj.x <= (x+obj.limitRight) and direction == 1) then					
 				MoveAIRigth()							
-			end			
+			end		
 
-			if(obj.x <= (x-obj.limitLeft)) then 			
-				direction = 1
-			elseif(obj.x >= (x+obj.limitRight)) then 			
-				direction = 0	
+			if(obj.type == "enemy") then 
+				moveObjToPlayerPosition()
+				if( obj.x == lastPlayerNoticedPosition ) then
+					obj.isFixedRotation = false
+				end
+			end		
+
+			-- if obj follow the the player
+			if(obj.isFixedRotation == false) then 
+				if(obj.x <= (x-obj.limitLeft)) then 			
+					direction = 1
+				elseif(obj.x >= (x+obj.limitRight)) then 			
+					direction = 0	
+				end
 			end
 		elseif(aiType == "guard") then
 			if(direction == 0) then
