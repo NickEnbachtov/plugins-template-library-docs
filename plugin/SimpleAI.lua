@@ -1,24 +1,31 @@
-local Library = require "CoronaLibrary"
-
--- Create library
-local lib = Library:new{ name='SimpleAI', publisherId='com.simpleai' }
-
--------------------------------------------------------------------------------
--- BEGIN (Insert your implementation starting here)
--------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+--
+-- SimpleAI class
+--
+-----------------------------------------------------------------------------------------
+-- Creates an object with specific behavior, which can contact (fire, visual contact, collision) with the object having type "player" (and other objects if needed)
+--[[
+	syntax: newAI({group, img, x, y[, ai_type][,spriteObj]})
+	usage: 
+	local newAI = require('classes.SimpleAI').newAI
+	local enemy = newAI({group = self.parent, img = "img.png", x = x, y = y, ai_type = "patrol"})
+--]]  
+-- ai_types: "patrol"(default), "guard", "boss"
+-- params: group, img, x, y, ai_type, spriteObj
 
 local physics = require( "physics" )
 
--- newAI( group, img, x, y [, ai_type [, spriteObj ]] )
-lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
-	local img = _img
-	local group = _group	
-	local x = _x
-	local y = _y
+local _M = {}
+
+function _M.newAI(params)
+	local img = params.img
+	local group = params.group	
+	local x = params.x
+	local y = params.y
 	local limitLeft = 20
 	local limitRight = 20
-	local aiType = _ai_type or "patrol"
-	local spriteObj = _spriteObj
+	local aiType = params.ai_type or "patrol"
+	local spriteObj = params.spriteObj
 	local obj = nil
 	local direction = 0
 	local extraAction = 0
@@ -475,10 +482,8 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	return obj
 end
 
+return _M
 
--------------------------------------------------------------------------------
--- END
--------------------------------------------------------------------------------
 
--- Return library instance
-return lib
+
+
