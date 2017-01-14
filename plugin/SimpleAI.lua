@@ -27,7 +27,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	local lastPlayerNoticedPosition = x
 	local fireEnabled = false
 	local stopFireOnInit = true
-	local visionScanner = nil
+	
 
 	
 	if(spriteObj ~= nil) then
@@ -50,15 +50,28 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	obj.allowShoot = false
 	obj.shootVelocity = 2000
 	obj.fireImg = nil
-	obj.visionLength = 500
+	obj.visionLength = 300
+
 	
 	-- Scanner for limited vision
-	visionScanner = display.newRect(group, obj.x, obj.y, 1, obj.height);
-	physics.addBody( visionScanner, "dynamic" )
-	visionScanner.type = "visionScanner"
-	visionScanner.isSensor = true
-	visionScanner.gravityScale = 0
-	visionScanner.alpha = 0
+	obj.visionScannerLeft = display.newRect(group, obj.x, obj.y, 20, obj.height);
+	physics.addBody( obj.visionScannerLeft, "dynamic" )
+	obj.visionScannerLeft.type = "visionScanner"
+	obj.visionScannerLeft.typeId = tostring( obj )
+	obj.visionScannerLeft.isSensor = true
+	obj.visionScannerLeft.gravityScale = 0
+	obj.visionScannerLeft.alpha = 0
+	
+
+	obj.visionScannerRight = display.newRect(group, obj.x, obj.y, 20, obj.height);
+	physics.addBody( obj.visionScannerRight, "dynamic" )
+	obj.visionScannerRight.type = "visionScanner"
+	obj.visionScannerRight.typeId = tostring( obj )
+	obj.visionScannerRight.isSensor = true
+	obj.visionScannerRight.gravityScale = 0
+	obj.visionScannerRight.alpha = 0
+	
+
 
 	---------------------
 	-- Methods
@@ -66,7 +79,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	-- ai detection
 	function obj:defaultActionOnVisualContactWithPlayer(event)
 		if(obj.type == "enemy") then
-			timer.performWithDelay( 10, getPlayerPosition(event.other) )				
+			timer.performWithDelay( 10, obj:getPlayerPosition(event.other) )				
 		end		
 	end
 	
@@ -153,7 +166,9 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	end
 
 	function obj:remove()
-		Runtime:removeEventListener( "enterFrame", actionAI )
+		Runtime:removeEventListener("enterFrame", run)
+		obj.visionScannerLeft:removeSelf( )
+		obj.visionScannerRight:removeSelf( )
 		display.remove( obj )
 	end
 	
@@ -194,25 +209,25 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	---------------------
 	-- Functions
 	---------------------
-	function MoveAIRigth()
+	function obj:MoveAIRigth()
 		obj.x = obj.x + 1
 		obj.xScale = -1
 	end
 
-	function MoveAILeft()			
+	function obj:MoveAILeft()			
 		obj.x = obj.x - 1
 		obj.xScale = 1
 	end
 
-	function TurnAIRigth()		
+	function obj:TurnAIRigth()		
 		obj.xScale = -1
 	end
 
-	function TurnAILeft()		
+	function obj:TurnAILeft()		
 		obj.xScale = 1
 	end
 
-	function SwitchDirection()		
+	function obj:SwitchDirection()		
 		if(direction == 2) then
 			direction = 1
 		elseif(direction == 3) then
@@ -220,13 +235,13 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		end		
 	end
 
-	function getPlayerPosition(player)		
+	function obj:getPlayerPosition(player)		
 		lastPlayerNoticedPosition = player.x
 		obj.isFixedRotation = false
 		stalker = true
 	end
 
-	function moveObjToPlayerPosition()
+	function obj:moveObjToPlayerPosition()
 		if(stalker) then
 			transition.moveTo( obj, {x = lastPlayerNoticedPosition, time = 2000} )
 			obj.isFixedRotation = true
@@ -239,7 +254,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	-- end
 	
 
-	function lookAIAhead( direction )
+	function obj:lookAIAhead( direction )
 		local scanBeam = display.newCircle(group,obj.x,obj.y,5)
 		physics.addBody( scanBeam, "dynamic" )
 		scanBeam.type = "scanBeam"
@@ -284,10 +299,11 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 					obj:customActionOnVisualContactWithObjectsEnd(event)
 				end
 			end
-			if(event.other ~= obj and event.other.type ~= "fireBall") then
+			if((event.other ~= obj and event.other.type ~= "fireBall" and event.other.type ~= "scanBeam" and event.other.type ~= "enemy" and event.other.type ~= "visionScanner") or (event.other.type == "visionScanner" and event.other.typeId == tostring( obj )) ) then
 				self:removeSelf( )
 				self = nil
 			end
+
 			
 		end
 
@@ -296,7 +312,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		
 	end
 
-	function fireAIAhead( direction )
+	function obj:fireAIAhead( direction )
 		local fireBall = nil
 		if(obj.fireImg ~= nil) then	
 			fireBall = display.newImage(group,obj.fireImg,obj.x,obj.y)
@@ -351,7 +367,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 					obj:customActionOnAiFireToObjectsEnd(event)
 				end
 			end
-			if(event.other ~= obj and event.other.type ~= "scanBeam" and event.other.type ~="visionScanner") then				
+			if(event.other ~= obj and event.other.type ~= "scanBeam" and event.other.type ~= "visionScanner") then				
 				self:removeSelf( )
 				self = nil
 			end
@@ -363,11 +379,11 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		
 	end
 	
-	function activateExtraAction()
+	function obj:activateExtraAction()
 		extraAction = 0		
 	end
 	
-	function bossAction()
+	function obj:bossAction()
 		if(extraAction == 0 and runActionActivity == 1) then					
 			obj:applyForce( 0, -101, obj.x, obj.y )
 			extraAction = 1
@@ -381,15 +397,19 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	---------------------
 	-- Render
 	---------------------
-	function actionAI( event )	
+	function obj:actionAI( event )	
 
-		lookAIAhead(direction) -- AI scan area ahead		
-		if(direction == 0) then				
-			visionScanner.x = obj.x - obj.visionLength -- left		
-		elseif(direction == 1) then			
-			visionScanner.x = obj.x + obj.visionLength -- right	
-		end		
-		visionScanner.y = obj.y
+		obj:lookAIAhead(direction) -- AI scan area ahead		
+		-- if(direction == 0) then				
+		-- 	visionScanner.x = obj.x - obj.visionLength -- left		
+		-- elseif(direction == 1) then			
+		-- 	visionScanner.x = obj.x + obj.visionLength -- right	
+		-- end		
+		obj.visionScannerLeft.x = obj.x - obj.visionLength -- left
+		obj.visionScannerRight.x = obj.x + obj.visionLength -- right
+
+		obj.visionScannerLeft.y = obj.y
+		obj.visionScannerRight.y = obj.y
 
 		
 
@@ -403,18 +423,18 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 
 		if(fireEnabled and obj.allowShoot) then
 			fireEnabled = false
-			fireAIAhead(direction)		
+			obj:fireAIAhead(direction)		
 		end
 
 		if(aiType == "patrol") then				
 			if(obj.x >= (x-obj.limitLeft) and direction == 0) then								
-				MoveAILeft()				
+				obj:MoveAILeft()				
 			elseif(obj.x <= (x+obj.limitRight) and direction == 1) then					
-				MoveAIRigth()							
+				obj:MoveAIRigth()							
 			end		
 
 			if(obj.type == "enemy") then 
-				moveObjToPlayerPosition()
+				obj:moveObjToPlayerPosition()
 				if( obj.x == lastPlayerNoticedPosition ) then
 					obj.isFixedRotation = false
 				end
@@ -430,24 +450,27 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 			end
 		elseif(aiType == "guard") then
 			if(direction == 0) then
-				TurnAILeft()
+				obj:TurnAILeft()
 				direction = 2
 				timer.performWithDelay( obj.switchDirectionTime, SwitchDirection )
 			elseif(direction == 1) then
-				TurnAIRigth()
+				obj:TurnAIRigth()
 				direction = 3
 				timer.performWithDelay( obj.switchDirectionTime, SwitchDirection )
 			end					
 			
 		elseif(aiType == "boss") then			
-			bossAction()			
+			obj:bossAction()			
 		end
 		obj:addExtraAction()
 	end
 	
+	function run( ... )
+		obj:actionAI()
+	end
 	
-	Runtime:addEventListener( "enterFrame", actionAI )
-	-- End of Functions
+	Runtime:addEventListener( "enterFrame", run )
+	-- End of Functions	
 	
 	return obj
 end
