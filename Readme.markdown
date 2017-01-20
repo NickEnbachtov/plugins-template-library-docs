@@ -21,10 +21,6 @@ The SimpleAI plugin can be used in your [Corona](https://coronalabs.com/products
 
 ## Project Configuration
 
-### Corona Store Activation
-
-In order to use this plugin, you must activate the plugin at the [Corona Store](http://store.coronalabs.com/plugin/SimpleAI).
-
 
 ### SDK
 
@@ -46,10 +42,6 @@ settings =
 	},		
 }
 ``````
-
-### Enterprise
-
-If you have activated this plugin, you can download this plugin from the corresponding plugin page in the [Corona Store](http://store.coronalabs.com/plugin/SimpleAI).
 
 
 ## Resources
