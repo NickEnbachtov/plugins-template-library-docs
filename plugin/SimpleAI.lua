@@ -10,7 +10,7 @@ local lib = Library:new{ name='SimpleAI', publisherId='com.simpleai' }
 local physics = require( "physics" )
 
 -- newAI( group, img, x, y [, ai_type [, spriteObj ]] )
-lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
+lib.newAI = function( _group, _img, _x, _y, _ai_type, _sprite )
 	local img = _img
 	local group = _group	
 	local x = _x
@@ -18,7 +18,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	local limitLeft = 20
 	local limitRight = 20
 	local aiType = _ai_type or "patrol"
-	local spriteObj = _spriteObj
+	local spriteObj = _spriteObj or nil
 	local obj = nil
 	local direction = 0
 	local extraAction = 0
@@ -27,6 +27,7 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	local lastPlayerNoticedPosition = x
 	local fireEnabled = false
 	local stopFireOnInit = true
+	local sprite = _sprite or {}
 	
 
 	
@@ -35,6 +36,12 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		obj.x = x
 		obj.y = y
 		group:insert(spriteObj)
+		obj:setSequence( "normalRun" )
+		obj:play()
+	elseif(next(sprite) ~= nil) then
+		obj = display.newSprite( group, sprite[1], sprite[2] )
+		obj.x = x
+		obj.y = y		
 		obj:setSequence( "normalRun" )
 		obj:play()
 	else
@@ -166,10 +173,10 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 	end
 
 	function obj:remove()
-		Runtime:removeEventListener("enterFrame", run)
+		Runtime:removeEventListener("enterFrame", obj)
 		obj.visionScannerLeft:removeSelf( )
 		obj.visionScannerRight:removeSelf( )
-		display.remove( obj )
+		display.remove( obj )		
 	end
 	
 	---------------------
@@ -465,12 +472,13 @@ lib.newAI = function( _group, _img, _x, _y, _ai_type, _spriteObj )
 		obj:addExtraAction()
 	end
 	
-	function run( ... )
-		obj:actionAI()
+	function obj:enterFrame()
+		self:actionAI()
 	end
 	
-	Runtime:addEventListener( "enterFrame", run )
+	Runtime:addEventListener( "enterFrame", obj )
 	-- End of Functions	
+
 	
 	return obj
 end
