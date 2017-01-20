@@ -36,7 +36,7 @@ _[Number](https://docs.coronalabs.com/api/type/Number.html)._ The y coordinate o
 _[String](http://docs.coronalabs.com/api/type/String.html)._ The name of the AI type, wich determines the specific behavior of AI. Available options: "patrol" (default), "guard", "boss". Default value is "patrol" if the parameter is not provided.
 
 ##### sprite <small>(optional)</small>
-_[Array](https://docs.coronalabs.com/api/type/SpriteObject/index.html)._ Array with animation data ({sheet, sequences}) This is only required if you intend to create an object from a sprite object instead of static image. Default value is `nil` if the parameter is not provided.
+_[Array](https://docs.coronalabs.com/api/type/SpriteObject/index.html)._ Array with animation data ({sheet, sequences}) This is only required if you intend to create an object from a sprite object instead of static image. Default value is `{}` if the parameter is not provided.
 
 
 ## Examples
