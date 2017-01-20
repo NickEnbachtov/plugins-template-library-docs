@@ -18,7 +18,7 @@ This function takes parameters and returns an object of artificial intelligence.
 
 	SimpleAI.newAI( group, img, x, y )
 	SimpleAI.newAI( group, img, x, y, ai_type )
-	SimpleAI.newAI( group, img, x, y, ai_type, spriteObj )
+	SimpleAI.newAI( group, img, x, y, ai_type, sprite )
 
 ##### group <small>(required)</small>
 _[GroupObject](https://docs.coronalabs.com/api/type/GroupObject/index.html)._ The name of the group object in which need to be inserted the AI object.
@@ -35,8 +35,8 @@ _[Number](https://docs.coronalabs.com/api/type/Number.html)._ The y coordinate o
 ##### ai_type <small>(optional)</small>
 _[String](http://docs.coronalabs.com/api/type/String.html)._ The name of the AI type, wich determines the specific behavior of AI. Available options: "patrol" (default), "guard", "boss". Default value is "patrol" if the parameter is not provided.
 
-##### spriteObj <small>(optional)</small>
-_[SpriteObject](https://docs.coronalabs.com/api/type/SpriteObject/index.html)._ Reference to a sprite object created with `display.newSprite()`. This is only required if you intend to create an object from a sprite object instead of static image. Default value is `nil` if the parameter is not provided.
+##### sprite <small>(optional)</small>
+_[Array](https://docs.coronalabs.com/api/type/SpriteObject/index.html)._ Array with animation data ({sheet, sequences}) This is only required if you intend to create an object from a sprite object instead of static image. Default value is `nil` if the parameter is not provided.
 
 
 ## Examples
