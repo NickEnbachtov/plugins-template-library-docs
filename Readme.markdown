@@ -48,7 +48,7 @@ settings =
 
 ### Sample Code
 
-You can access sample code [here (SimpleAI example project class version)](SimpleAI example project plugin version).
+You can access sample code [here (SimpleAI example project plugin version)](SimpleAI example project plugin version).
 
 Other code examples available [here](http://simple-ai.blogspot.com/#code_examples).
 
