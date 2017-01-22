@@ -15,7 +15,7 @@ The SimpleAI plugin can be used in your [Corona](https://coronalabs.com/products
 
 	local SimpleAI = require "plugin.SimpleAI"
 	
-## Example
+## Usage
 
 ``````lua
 local SimpleAI = require 'plugin.SimpleAI'
