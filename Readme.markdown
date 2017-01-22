@@ -14,6 +14,14 @@ The SimpleAI plugin can be used in your [Corona](https://coronalabs.com/products
 ## Syntax
 
 	local SimpleAI = require "plugin.SimpleAI"
+	
+## Examples
+
+	``````lua
+	local SimpleAI = require 'plugin.SimpleAI'
+
+	local enemy = SimpleAI.newAI(mainGroup, "enemy.png", 100, 300)
+	``````
 
 ### Functions
 
