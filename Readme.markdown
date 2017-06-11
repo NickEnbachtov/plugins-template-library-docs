@@ -56,7 +56,7 @@ settings =
 
 ### Sample Code
 
-You can access sample project [here (SimpleAI example project plugin version)](SimpleAI example project plugin version).
+You can access sample project [here (SimpleAI example project plugin version)](https://github.com/NickEnbachtov/plugins-template-library-docs/tree/master/SimpleAI%20example%20project%20plugin%20version).
 
 Other code examples available [here](http://simple-ai.blogspot.com/#code_examples).
 
